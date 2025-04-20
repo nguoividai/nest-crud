@@ -1,21 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
+import { UsersModule } from './apis/users/users.module';
+import { User } from './apis/users/entities/user.entity';
+import { AuthModule } from './apis/auth/auth.module';
+import { DatabaseConfig } from './config/database';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost', // or your DB host
-      port: 5432,
-      username: 'postgres', // your DB username
-      password: '123', // your DB password
-      database: 'nest_crud', // name of your DB
+      ...DatabaseConfig,
       entities: [User],
-      synchronize: true, // auto-create tables (disable in production)
     }),
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
